@@ -1,3 +1,8 @@
+// The original file can be found in the pico-examples repository: 
+// https://github.com/raspberrypi/pico-examples/blob/master/hstx/spi_lcd/hstx_spi_lcd.c.
+// It was modified by iCMDdev (icmd.tech) in order to connect 
+// the Pimoroni Display Pack and add some LVGL functions.
+
 /*
  Copyright (c) 2024 Raspberry Pi (Trading) Ltd.
 
@@ -21,11 +26,6 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSE
 WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
-
-// The original file can be found in the pico-examples repository: 
-// https://github.com/raspberrypi/pico-examples/blob/master/hstx/spi_lcd/hstx_spi_lcd.c.
-// It was modified by iCMDdev (icmd.tech) in order to connect 
-// the Pimoroni Display Pack and add some LVGL functions.
 
 // Drive a ST7789 SPI LCD using the HSTX. The SPI clock rate is fully
 // independent of (and can be faster than) the system clock.
@@ -216,6 +216,31 @@ static void display_init(void) {
     lcd_init(st7789_init_seq);
 }
 
+void lcd_set_rotation(uint8_t rotation) {
+    lcd_start_cmd(0x36);  // MADCTL command - rotate the display 90 deg
+    lcd_put_data(rotation);
+}
+
+// End of Raspberry Pi (Trading) Ltd. code (with modifications)
+
+// The following lines of code represent modified source code from the LVGL library.
+// These represent the necessary configurations / callbacks to port LVGL to the Pico 2 &
+// ST7789 display.
+//
+// Copyright (c) 2021 LVGL Kft
+
+/*
+MIT licence
+Copyright (c) 2021 LVGL Kft
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+*/
+
 static void disp_flush(lv_display_t * disp_drv, const lv_area_t * ar, uint8_t * px_map)
 {
     int32_t x;
@@ -246,36 +271,29 @@ static void disp_flush(lv_display_t * disp_drv, const lv_area_t * ar, uint8_t * 
 #define MY_DISP_HOR_RES 240
 #define MY_DISP_VER_RES 135
 
-void lcd_set_rotation(uint8_t rotation) {
-    lcd_start_cmd(0x36);  // MADCTL command
-    lcd_put_data(rotation);
-}
-
-#define UP_PIN 14  // Replace with your GPIO pin number
-#define DOWN_PIN 15  // Replace with your GPIO pin number
+// Pimoroni Pico Display Pack Buttons
+#define UP_PIN 14
+#define DOWN_PIN 15  
 #define LEFT_PIN 12
 #define RIGHT_PIN 13
 
 void init_buttons() {
     gpio_init(UP_PIN);                     // Initialize the GPIO pin
     gpio_set_dir(UP_PIN, GPIO_IN);         // Set the GPIO direction as input
-    gpio_pull_up(UP_PIN);                  // Enable pull-up resistor (optional)
+    gpio_pull_up(UP_PIN);
 
-    gpio_init(DOWN_PIN);                   // Initialize the GPIO pin
-    gpio_set_dir(DOWN_PIN, GPIO_IN);       // Set the GPIO direction as input
-    gpio_pull_up(DOWN_PIN);                // Enable pull-up resistor (optional)
+    gpio_init(DOWN_PIN);                   
+    gpio_set_dir(DOWN_PIN, GPIO_IN);       
+    gpio_pull_up(DOWN_PIN);
 
-    gpio_init(LEFT_PIN);                   // Initialize the GPIO pin
-    gpio_set_dir(LEFT_PIN, GPIO_IN);       // Set the GPIO direction as input
-    gpio_pull_up(LEFT_PIN);                // Enable pull-up resistor (optional)
+    gpio_init(LEFT_PIN);                   
+    gpio_set_dir(LEFT_PIN, GPIO_IN);       
+    gpio_pull_up(LEFT_PIN);                
 
-    gpio_init(RIGHT_PIN);                   // Initialize the GPIO pin
-    gpio_set_dir(RIGHT_PIN, GPIO_IN);       // Set the GPIO direction as input
-    gpio_pull_up(RIGHT_PIN);                // Enable pull-up resistor (optional)
+    gpio_init(RIGHT_PIN);                  
+    gpio_set_dir(RIGHT_PIN, GPIO_IN);      
+    gpio_pull_up(RIGHT_PIN);       
 }
-
-
-
 
 void btn_callback(uint gpio, uint32_t events) {
     // Handle button press (interrupt) event
@@ -322,14 +340,12 @@ void btn_callback(uint gpio, uint32_t events) {
     } 
 }
 
-
 static uint32_t ms_since_boot() {
     return (uint32_t)to_ms_since_boot(get_absolute_time());
 }
 
 static uint32_t keypad_get_key(void)
 {
-    /*Your code comes here*/
     if (scrollDOWN && scrollUP) return 3;
     if (scrollDOWN) return 1;
     if (scrollUP) return 2;
@@ -379,12 +395,10 @@ static void graphics_init(void) {
     lv_init();
     display_init();
     stdio_init_all();
-    printf("display creation\n");
+
     lv_display_t * disp = lv_display_create(MY_DISP_HOR_RES, MY_DISP_VER_RES);
     lv_display_set_flush_cb(disp, disp_flush);
 
-    /* Example 1
-     * One buffer for partial rendering*/
     LV_ATTRIBUTE_MEM_ALIGN
     static uint8_t buf_2_1[MY_DISP_HOR_RES * MY_DISP_HOR_RES * BYTE_PER_PIXEL];
 
@@ -392,19 +406,15 @@ static void graphics_init(void) {
     static uint8_t buf_2_2[MY_DISP_HOR_RES * MY_DISP_HOR_RES * BYTE_PER_PIXEL];
     lv_display_set_buffers(disp, buf_2_1, buf_2_2, sizeof(buf_2_1), LV_DISPLAY_RENDER_MODE_PARTIAL);
 
-    //lv_display_set_rotation(disp, LV_DISPLAY_ROTATION_270);
-
     lcd_set_rotation(0x60);
 
     lv_tick_set_cb(ms_since_boot);
 
     // input devices (keypad buttons)
-    //lv_indev_t * indev = lv_indev_create();
-    //lv_indev_set_type(indev, LV_INDEV_TYPE_KEYPAD);
-    //lv_indev_set_read_cb(indev, keypad_read);  
+    lv_indev_t * indev = lv_indev_create();
+    lv_indev_set_type(indev, LV_INDEV_TYPE_KEYPAD);
+    lv_indev_set_read_cb(indev, keypad_read);  
 }
-
-
 
 int show_demo() {
     graphics_init();
@@ -428,6 +438,8 @@ int show_demo() {
 
     lv_demo_music();
 }
+
+// END of LVGL code
 
 /*int display_main() {
     display_init();

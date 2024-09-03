@@ -6,12 +6,12 @@ is Apple Inc. (https://swift.org/), and was licensed under
 Apache License v2.0 with Runtime Library Exception (https://swift.org/LICENSE.txt).
 Copyright (c) 2023 Apple Inc. and the Swift project authors. 
 
-The Initial Developer of hstx_spi_lcd.c 
+The Initial Developer of some parts of hstx_spi_lcd.c 
 is Raspberry Pi (Trading) Ltd. (https://swift.org/), and was licensed under
-BSD 3-Clause "New" or "Revised" License.
+BSD 3-Clause "New" or "Revised" License. This 
 Copyright 2020 (c) 2020 Raspberry Pi (Trading) Ltd.
 
-The Initial Developer of lv_conf.h
+The Initial Developer of lv_conf.h and some parts of hstx_spi_lcd.c
 is LVGL Kft. (https://docs.lvgl.io/), and was licensed under
 the MIT License.
 Copyright (c) 2021 LVGL Kft
