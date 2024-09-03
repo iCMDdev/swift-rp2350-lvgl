@@ -49,6 +49,7 @@ jobs:
       with: 
         make_latest: true
         tag_name: pico2-autorelease
+        if: startsWith(github.ref, 'refs/tags/')
         files: ${{github.workspace}}/build/swift-blinky.uf2
           
 
