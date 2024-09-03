@@ -14,10 +14,10 @@ If you have the same hardware (Pico 2 with Pimoroni Pico Display Pack), you can 
 You should follow the instructions provided in Apple's [Swift Embedded Examples](https://github.com/apple/swift-embedded-examples/tree/main/pico-blink-sdk) repo. Maybe first try building the blink example, then similarly, use the same CMake commands here:
 
 ```terminal
-$ export TOOLCHAINS='<toolchain-name>'
+$ export TOOLCHAINS='<toolchain-name>' # Your Swift toolchain (if you have multiple installed)
 $ export PICO_BOARD='<board-name>' # Examples: pico2
 $ export PICO_SDK_PATH='<path-to-your-pico-sdk>'
-$ export PICO_TOOLCHAIN_PATH='<path-to-the-arm-toolchain>'
+$ export PICO_TOOLCHAIN_PATH='<path-to-the-arm-toolchain>' # you may omit this if the toolchain is added to PATH.
 $ cmake -B build -G Ninja .
 $ cmake --build build
 ```
