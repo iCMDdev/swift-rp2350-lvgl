@@ -43,5 +43,7 @@ jobs:
 
     - name: Build
       # Build your program with the given configuration
-      run:  ; cmake -G Ninja -B build; cmake --build ${{github.workspace}}/build 
+      run: cmake --build ${{github.workspace}}/build 
+
+
 
