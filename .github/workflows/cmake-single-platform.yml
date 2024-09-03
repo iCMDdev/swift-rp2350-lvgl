@@ -28,7 +28,7 @@ jobs:
         version: swift-DEVELOPMENT-SNAPSHOT-2024-04-13-a
 
     - name: Install GCC & GNU Embedded Toolchain for ARM
-      run: sudo apt install gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential; sudo apt install g++ libstdc++-arm-none-eabi-newlib
+      run: sudo apt install gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential g++ libstdc++-arm-none-eabi-newlib ninja-build
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
