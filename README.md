@@ -1,4 +1,4 @@
-<img src="https://github.com/user-attachments/assets/afa7fc1e-6f72-4f2d-9e0d-177b3f3072d5" width="30%" />
+<img src="https://github.com/user-attachments/assets/afa7fc1e-6f72-4f2d-9e0d-177b3f3072d5" width="300px" />
 
 # swift-rp2350-lvgl-st7789 ![Build Status](https://github.com/iCMDdev/swift-rp2350-lvgl-st7789/actions/workflows/cmake-single-platform.yml/badge.svg)
 
