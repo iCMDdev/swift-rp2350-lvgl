@@ -37,5 +37,5 @@ I wanted to test the new Swift Embedded language features. It is true that Rust 
 
 > Why is there so little Swift code in this repo, compared to C?
 
-This is because the Pico display communication and LVGL porting / display configuration was made in C (following their documentation). I might port them to Swift later, but either way, everything is still controlled from within `Main.swift`. One can take this further and create a project / device and write its main logic in Swift (UI, other peripherals etc.) upon this example.
+This is because the Pico display communication and LVGL porting / display configuration was made in C (following their documentation). I might port them to Swift later, but either way, everything is still controlled from within `Main.swift`. One can take this further and create a project / device and write its main logic in Swift (LVGL UI, other peripherals etc.) upon this example.
 
