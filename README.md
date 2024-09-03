@@ -7,6 +7,8 @@ A simple example of running [Swift Embedded (baremetal, currently experimental)]
 This project uses the Pico 2.0 (or later?) SDK.
 The Pico 2 communicates with the display via HSTX (High-Speed Serial Transmit), which is a <b>new peripheral introduced in the RP2350</b> that facilitates faster SPI communications (TX only).
 
+If you have the same hardware (Pico 2 with Pimoroni Pico Display Pack), you can download the latest automatically-built UF2 binary from [here](https://github.com/iCMDdev/swift-rp2350-lvgl-st7789/releases/tag/pico2-autorelease).
+
 ## How to build?
 
 You should follow the instructions provided in Apple's [Swift Embedded Examples](https://github.com/apple/swift-embedded-examples/tree/main/pico-blink-sdk) repo. Maybe first try building the blink example, then similarly, use the same CMake commands here:
