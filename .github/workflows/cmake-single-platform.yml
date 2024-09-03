@@ -34,13 +34,13 @@ jobs:
       run: sudo apt install gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential g++ libstdc++-arm-none-eabi-newlib ninja-build
 
     - name: Pico SDK CMake init
-      run: mkdir external; wget https://raw.githubusercontent.com/raspberrypi/pico-sdk/master/external/pico_sdk_import.cmake; cd ..; export PICO_SDK_PATH=${pwd}
+      run: 
 
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      run: cmake -B ${{github.workspace}}/build -G Ninja -DPICO_BORAD=pico2 -DPICO_SDK_FETCH_FROM_GIT=on
+      run: mkdir external; wget https://raw.githubusercontent.com/raspberrypi/pico-sdk/master/external/pico_sdk_import.cmake; cd ..; cmake -B ${{github.workspace}}/build -G Ninja -DPICO_SDK_PATH=${pwd} -DPICO_BORAD=pico2 -DPICO_SDK_FETCH_FROM_GIT=on
 
     - name: Build
       # Build your program with the given configuration
