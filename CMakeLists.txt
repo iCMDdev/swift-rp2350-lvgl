@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 include($ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake)
 
 
-project(swift-blinky)
+project(swift-rp2350-lvgl-st7789)
 pico_sdk_init()
 
 if(APPLE)
@@ -23,14 +23,14 @@ elseif(PICO_PLATFORM STREQUAL "rp2350-riscv")
     set(SWIFT_TARGET "riscv32-none-none-eabi")
 endif()
 
-add_executable(swift-blinky hstx_spi_lcd.c)
+add_executable(swift-rp2350-lvgl-st7789 hstx_spi_lcd.c)
 add_custom_command(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/_swiftcode.o
     COMMAND
         ${SWIFTC}
         -target ${SWIFT_TARGET} -Xcc -mfloat-abi=soft -Xcc -fshort-enums
         -Xfrontend -function-sections -enable-experimental-feature Embedded -wmo -parse-as-library
-        $$\( echo '$<TARGET_PROPERTY:swift-blinky,INCLUDE_DIRECTORIES>' | tr '\;' '\\n' | sed -e 's/\\\(.*\\\)/-Xcc -I\\1/g' \)
+        $$\( echo '$<TARGET_PROPERTY:swift-rp2350-lvgl-st7789,INCLUDE_DIRECTORIES>' | tr '\;' '\\n' | sed -e 's/\\\(.*\\\)/-Xcc -I\\1/g' \)
         $$\( echo '${CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES}'             | tr ' '  '\\n' | sed -e 's/\\\(.*\\\)/-Xcc -I\\1/g' \)
         -import-bridging-header ${CMAKE_CURRENT_LIST_DIR}/BridgingHeader.h
         ${CMAKE_CURRENT_LIST_DIR}/Main.swift
@@ -39,7 +39,7 @@ add_custom_command(
         ${CMAKE_CURRENT_LIST_DIR}/BridgingHeader.h
         ${CMAKE_CURRENT_LIST_DIR}/Main.swift
 )
-add_custom_target(swift-blinky-swiftcode DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/_swiftcode.o)
+add_custom_target(swift-rp2350-lvgl-st7789-swiftcode DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/_swiftcode.o)
 
 
 # Specify path to own LVGL config header
@@ -51,18 +51,18 @@ set(LV_CONF_PATH
 FetchContent_Declare(lvgl GIT_REPOSITORY https://github.com/lvgl/lvgl.git)
 FetchContent_MakeAvailable(lvgl)
 
-target_link_libraries(swift-blinky
+target_link_libraries(swift-rp2350-lvgl-st7789
     pico_stdlib hardware_uart hardware_gpio hardware_spi hardware_gpio hardware_pwm hardware_clocks hardware_pio
     hardware_resets pico_sync
     ${CMAKE_CURRENT_BINARY_DIR}/_swiftcode.o
     lvgl::lvgl
     lvgl::demos
 )
-add_dependencies(swift-blinky swift-blinky-swiftcode)
+add_dependencies(swift-rp2350-lvgl-st7789 swift-rp2350-lvgl-st7789-swiftcode)
 
 
 
-pico_add_extra_outputs(swift-blinky)
+pico_add_extra_outputs(swift-rp2350-lvgl-st7789)
 
 # enable usb output, disable uart output
 pico_enable_stdio_usb(${PROJECT_NAME} 1)
