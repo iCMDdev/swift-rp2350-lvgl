@@ -27,6 +27,9 @@ jobs:
       with:
         version: swift-DEVELOPMENT-SNAPSHOT-2024-04-13-a
 
+    - name: Test Swift Install
+      run: swift --version
+
     - name: Install GCC & GNU Embedded Toolchain for ARM
       run: sudo apt install gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential g++ libstdc++-arm-none-eabi-newlib ninja-build
 
