@@ -1,0 +1,13 @@
+swift-lvgl-rp2350
+Copyright (c) 2024 iCMDdev (https://icmd.tech).
+
+The Initial Developer of Main.swift and CMakeLists.txt 
+is Apple Inc. (https://swift.org/), and was licensed under
+Apache License v2.0 with Runtime Library Exception (https://swift.org/LICENSE.txt).
+Copyright (c) 2023 Apple Inc. and the Swift project authors. 
+
+The Initial Developer of hstx_spi_lcd.c 
+is Raspberry Pi (Trading) Ltd. (https://swift.org/), and was licensed under
+BSD 3-Clause "New" or "Revised" License.
+Copyright 2020 (c) 2020 Raspberry Pi (Trading) Ltd.
+
