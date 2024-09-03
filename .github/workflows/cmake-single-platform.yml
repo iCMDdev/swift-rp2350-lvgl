@@ -1,6 +1,6 @@
 # This starter workflow is for a CMake project running on a single platform. There is a different starter workflow if you need cross-platform coverage.
 # See: https://github.com/actions/starter-workflows/blob/main/ci/cmake-multi-platform.yml
-name: CMake on a single platform
+name: Test build errors for RP2350
 
 on:
   push:
@@ -34,7 +34,7 @@ jobs:
       run: sudo apt install gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential g++ libstdc++-arm-none-eabi-newlib ninja-build
 
     - name: Pico SDK CMake init
-      run: wget https://raw.githubusercontent.com/raspberrypi/pico-sdk/master/pico_sdk_init.cmake; export PICO_SDK_PATH=${pwd}
+      run: mkdir external; wget https://raw.githubusercontent.com/raspberrypi/pico-sdk/master/external/pico_sdk_import.cmake; cd ..; export PICO_SDK_PATH=${pwd}
 
 
     - name: Configure CMake
