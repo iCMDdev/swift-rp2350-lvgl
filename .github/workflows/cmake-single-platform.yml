@@ -60,6 +60,7 @@ jobs:
       with: 
         make_latest: true
         tag_name: pico2-autorelease        
+        draft: false
         files: |
           ${{github.workspace}}/build/swift-rp2350-lvgl-st7789.uf2
           ${{github.workspace}}/build/swift-rp2350-lvgl-st7789.dis
