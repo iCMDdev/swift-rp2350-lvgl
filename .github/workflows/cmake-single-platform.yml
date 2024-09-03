@@ -49,9 +49,11 @@ jobs:
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build 
 
-    - name: Delete previous tag release
-      run: git tag -d pico2-autorelease; git push origin :refs/tags/pico2-autorelease
-
+    - name: Re-tag release
+      run: | 
+        git push --delete origin pico2-autorelease
+        git tag pico2-autorelease
+        git push origin pico2-autorelease
 
     - name: Release
       uses: softprops/action-gh-release@v2
