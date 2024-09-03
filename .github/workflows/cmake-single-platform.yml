@@ -49,12 +49,23 @@ jobs:
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build 
 
+    - name: Delete previous tag release
+      run: git tag -d pico2-autorelease; git push origin :refs/tags/pico2-autorelease
+
+
     - name: Release
       uses: softprops/action-gh-release@v2
       with: 
         make_latest: true
         tag_name: pico2-autorelease        
-        files: ${{github.workspace}}/build/swift-blinky.uf2
+        files: |
+          ${{github.workspace}}/build/swift-rp2350-lvgl-st7789.uf2
+          ${{github.workspace}}/build/swift-rp2350-lvgl-st7789.dis
+          ${{github.workspace}}/build/swift-rp2350-lvgl-st7789.elf
+          ${{github.workspace}}/build/swift-rp2350-lvgl-st7789.elf.map
+        body: This is a binary <b>automatically built by a GitHub workflow</b> for the Pico 2. It should include the latest changes if the build process didn't fail.
+
+
           
 
         
