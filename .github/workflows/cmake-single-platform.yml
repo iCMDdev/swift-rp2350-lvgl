@@ -46,10 +46,10 @@ jobs:
       run: cmake --build ${{github.workspace}}/build 
 
     - name: Release
-        uses: softprops/action-gh-release@v2
-        with: 
-          make_latest: true
-          files: ${{github.workspace}}/build/swift-blinky.uf2
+      uses: softprops/action-gh-release@v2
+      with: 
+        make_latest: true
+        files: ${{github.workspace}}/build/swift-blinky.uf2
           
 
         
