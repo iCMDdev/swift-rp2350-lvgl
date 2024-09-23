@@ -73,7 +73,7 @@ add_custom_command(
 )
 add_custom_target(swift-rp2350-lvgl-st7789-swiftcode DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/_swiftcode.o)
 
-target_link_libraries(swift-blinky
+target_link_libraries(swift-rp2350-lvgl-st7789
     ${CMAKE_CURRENT_BINARY_DIR}/_swiftcode.o
 )
 add_dependencies(swift-rp2350-lvgl-st7789 swift-rp2350-lvgl-st7789-swiftcode)
