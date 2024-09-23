@@ -28,6 +28,24 @@ elseif(PICO_PLATFORM STREQUAL "rp2350-riscv")
     list(APPEND CLANG_ARCH_ABI_FLAGS "-march=rv32imac_zicsr_zifencei_zba_zbb_zbs_zbkb" "-Xcc" "-mabi=ilp32")
 endif()
 
+# Specify path to own LVGL config header
+set(LV_CONF_PATH
+    ${CMAKE_CURRENT_SOURCE_DIR}/lv_conf.h
+    CACHE STRING "" FORCE)
+    
+# Fetch LVGL from GitHub
+FetchContent_Declare(lvgl GIT_REPOSITORY https://github.com/lvgl/lvgl.git)
+FetchContent_MakeAvailable(lvgl)
+
+target_link_libraries(swift-rp2350-lvgl-st7789
+    pico_stdlib hardware_uart hardware_gpio hardware_spi hardware_gpio hardware_pwm hardware_clocks hardware_pio
+    hardware_resets pico_sync
+    ${CMAKE_CURRENT_BINARY_DIR}/_swiftcode.o
+    lvgl::lvgl
+    lvgl::demos
+)
+
+
 gather_vars(COMPILE_DEFINITIONS INTERFACE_COMPILE_DEFINITIONS _touched_cd swift-rp2350-lvgl-st7789)
 list(REMOVE_DUPLICATES COMPILE_DEFINITIONS)
 list(PREPEND COMPILE_DEFINITIONS "") # -Xcc -D
@@ -56,26 +74,7 @@ add_custom_command(
 )
 add_custom_target(swift-rp2350-lvgl-st7789-swiftcode DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/_swiftcode.o)
 
-
-# Specify path to own LVGL config header
-set(LV_CONF_PATH
-    ${CMAKE_CURRENT_SOURCE_DIR}/lv_conf.h
-    CACHE STRING "" FORCE)
-    
-# Fetch LVGL from GitHub
-FetchContent_Declare(lvgl GIT_REPOSITORY https://github.com/lvgl/lvgl.git)
-FetchContent_MakeAvailable(lvgl)
-
-target_link_libraries(swift-rp2350-lvgl-st7789
-    pico_stdlib hardware_uart hardware_gpio hardware_spi hardware_gpio hardware_pwm hardware_clocks hardware_pio
-    hardware_resets pico_sync
-    ${CMAKE_CURRENT_BINARY_DIR}/_swiftcode.o
-    lvgl::lvgl
-    lvgl::demos
-)
 add_dependencies(swift-rp2350-lvgl-st7789 swift-rp2350-lvgl-st7789-swiftcode)
-
-
 
 pico_add_extra_outputs(swift-rp2350-lvgl-st7789)
 
