@@ -42,11 +42,9 @@ add_executable(swift-rp2350-lvgl-st7789 hstx_spi_lcd.c)
 target_link_libraries(swift-rp2350-lvgl-st7789
     pico_stdlib hardware_uart hardware_gpio hardware_spi hardware_gpio hardware_pwm hardware_clocks hardware_pio
     hardware_resets pico_sync
-    ${CMAKE_CURRENT_BINARY_DIR}/_swiftcode.o
     lvgl::lvgl
     lvgl::demos
 )
-
 
 gather_vars(COMPILE_DEFINITIONS INTERFACE_COMPILE_DEFINITIONS _touched_cd swift-rp2350-lvgl-st7789)
 list(REMOVE_DUPLICATES COMPILE_DEFINITIONS)
@@ -75,10 +73,8 @@ add_custom_command(
 )
 add_custom_target(swift-rp2350-lvgl-st7789-swiftcode DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/_swiftcode.o)
 
+target_link_libraries(swift-blinky
+    ${CMAKE_CURRENT_BINARY_DIR}/_swiftcode.o
+)
 add_dependencies(swift-rp2350-lvgl-st7789 swift-rp2350-lvgl-st7789-swiftcode)
-
 pico_add_extra_outputs(swift-rp2350-lvgl-st7789)
-
-# enable usb output, disable uart output
-pico_enable_stdio_usb(${PROJECT_NAME} 1)
-pico_enable_stdio_uart(${PROJECT_NAME} 0)
