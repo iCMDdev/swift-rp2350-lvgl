@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 include($ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake)
-
+include(hacky_cmake_helper.cmake)
 
 project(swift-rp2350-lvgl-st7789)
 pico_sdk_init()
