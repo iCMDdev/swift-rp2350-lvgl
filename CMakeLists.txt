@@ -62,7 +62,7 @@ add_custom_command(
         @${CMAKE_BINARY_DIR}/swiftc_flags.txt
         ${CLANG_ARCH_ABI_FLAGS}
         -Xfrontend -function-sections -enable-experimental-feature Embedded -wmo -parse-as-library
-        $$\( echo '$<TARGET_PROPERTY:swift-blinky,INCLUDE_DIRECTORIES>' | tr '\;' '\\n' | sed -e 's/\\\(.*\\\)/-Xcc -I\\1/g' \)
+        $$\( echo '$<TARGET_PROPERTY:swift-rp2350-lvgl-st7789,INCLUDE_DIRECTORIES>' | tr '\;' '\\n' | sed -e 's/\\\(.*\\\)/-Xcc -I\\1/g' \)
         $$\( echo '${CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES}'             | tr ' '  '\\n' | sed -e 's/\\\(.*\\\)/-Xcc -I\\1/g' \)
         -import-bridging-header ${CMAKE_CURRENT_LIST_DIR}/BridgingHeader.h
         ${CMAKE_CURRENT_LIST_DIR}/Main.swift
