@@ -37,6 +37,8 @@ set(LV_CONF_PATH
 FetchContent_Declare(lvgl GIT_REPOSITORY https://github.com/lvgl/lvgl.git)
 FetchContent_MakeAvailable(lvgl)
 
+add_executable(swift-rp2350-lvgl-st7789 hstx_spi_lcd.c)
+
 target_link_libraries(swift-rp2350-lvgl-st7789
     pico_stdlib hardware_uart hardware_gpio hardware_spi hardware_gpio hardware_pwm hardware_clocks hardware_pio
     hardware_resets pico_sync
@@ -54,7 +56,6 @@ string(REPLACE ";" " -Xcc -D" COMPILE_DEFINITIONS "${COMPILE_DEFINITIONS}")
 
 file(GENERATE OUTPUT ${CMAKE_BINARY_DIR}/swiftc_flags.txt CONTENT "${COMPILE_DEFINITIONS}")
 
-add_executable(swift-rp2350-lvgl-st7789 hstx_spi_lcd.c)
 add_custom_command(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/_swiftcode.o
     COMMAND
