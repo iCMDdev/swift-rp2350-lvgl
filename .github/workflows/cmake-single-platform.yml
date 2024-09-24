@@ -35,13 +35,20 @@ jobs:
     - name: Install GCC, GNU Embedded Toolchain for ARM, Ninja
       run: sudo apt install gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential g++ libstdc++-arm-none-eabi-newlib ninja-build
     
-    - name: Pico SDK cache
+    - name: Fetch latest Pico SDK version tag
+      id: get_latest_version
+      run: |
+        # Fetch the latest release tag from GitHub API
+        LATEST_PICOSDK_VERSION=$(curl -s https://api.github.com/repos/raspberrypi/pico-sdk/releases/latest | jq -r .tag_name)
+        echo "Latest version: $LATEST_PICOSDK_VERSION"
+        # Set the latest version as an output variable
+        echo "latest_picosdk_version=$LATEST_PICOSDK_VERSION" >> $GITHUB_ENV
+    
+    - name: Load Pico SDK cache
       uses: actions/cache@v3
       with:
         path: pico-sdk
-        key: picosdk-${{curl -s https://api.github.com/repos/raspberrypi/pico-sdk/releases/latest | jq -r .tag_name}}
-        restore-keys: |
-          picosdk-
+        key: picosdk-${{env.latest_picosdk_version}}
     
     - name: Install Pico SDK
       run: |
