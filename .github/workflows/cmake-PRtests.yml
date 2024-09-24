@@ -43,7 +43,7 @@ jobs:
     - name: Install Pico SDK
       run: |
         cd ${{github.workspace}}
-        if [ ! -d "riscv-embecosm-embedded-ubuntu2204-20240407" ]; then git clone https://github.com/raspberrypi/pico-sdk.git; cd ${{github.workspace}}/pico-sdk; git submodule update --init; fi
+        if [ ! -d "pico-sdk" ]; then git clone https://github.com/raspberrypi/pico-sdk.git; cd ${{github.workspace}}/pico-sdk; git submodule update --init; fi
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
