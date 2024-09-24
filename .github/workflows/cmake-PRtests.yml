@@ -32,12 +32,18 @@ jobs:
     - name: Install GCC, GNU Embedded Toolchain for ARM, Ninja
       run: sudo apt install gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential g++ libstdc++-arm-none-eabi-newlib ninja-build
     
+    - name: Pico SDK cache
+      uses: actions/cache@v3
+      with:
+        path: pico-sdk
+        key: picosdk-${{ hashFiles('pico-sdk') }}
+        restore-keys: |
+          picosdk-
+    
     - name: Install Pico SDK
       run: |
         cd ${{github.workspace}}
-        git clone https://github.com/raspberrypi/pico-sdk.git
-        cd ${{github.workspace}}/pico-sdk
-        git submodule update --init
+        if [ ! -d "riscv-embecosm-embedded-ubuntu2204-20240407" ]; then git clone https://github.com/raspberrypi/pico-sdk.git; cd ${{github.workspace}}/pico-sdk; git submodule update --init; fi
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
