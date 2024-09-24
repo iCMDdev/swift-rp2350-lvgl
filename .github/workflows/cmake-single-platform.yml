@@ -39,7 +39,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: pico-sdk
-        key: picosdk-${{ hashFiles('pico-sdk') }}
+        key: picosdk-${{curl -s https://api.github.com/repos/raspberrypi/pico-sdk/releases/latest | jq -r .tag_name}}
         restore-keys: |
           picosdk-
     
