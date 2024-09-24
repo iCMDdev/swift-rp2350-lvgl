@@ -60,6 +60,8 @@ jobs:
     - name: Re-tag release
       run: | 
         git push --delete origin pico2-autorelease || true
+        git tag pico2-autorelease || true
+        git push origin pico2-autorelease || true
 
     - name: Release
       uses: softprops/action-gh-release@v2
