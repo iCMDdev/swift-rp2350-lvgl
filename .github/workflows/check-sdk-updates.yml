@@ -1,0 +1,53 @@
+name: Daily check for SDK updates
+
+on:
+  schedule:
+    - cron: '10 0 * * *'
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Debug
+  PICO_BOARD: pico2
+
+jobs:
+  stale:
+    runs-on: ubuntu-22.04
+    steps: 
+    - uses: actions/checkout@v4
+
+    - name: Check for Swift updates
+      uses: slashmo/install-swift@v0.4.0
+      with:
+        version: swift-DEVELOPMENT-SNAPSHOT-2024-04-13-a
+
+    - name: Test Swift Install
+      run: swift --version
+
+    - name: Fetch latest Pico SDK version
+      id: get_latest_version
+      run: |
+        # Fetch the latest release tag from GitHub API
+        LATEST_PICOSDK_VERSION=$(curl -s https://api.github.com/repos/raspberrypi/pico-sdk/releases/latest | jq -r .tag_name)
+        echo "Latest version: $LATEST_PICOSDK_VERSION"
+        # Set the latest version as an output variable
+        echo "latest_picosdk_version=$LATEST_PICOSDK_VERSION" >> $GITHUB_ENV
+    
+    - name: Check Pico SDK cache
+      uses: actions/cache@v3
+      with:
+        path: pico-sdk
+        key: picosdk-${{env.latest_picosdk_version}}
+    
+    - name: Install Pico SDK if new version is available
+      run: |
+        cd ${{github.workspace}}
+        if [ ! -d "pico-sdk" ]; then git clone https://github.com/raspberrypi/pico-sdk.git; cd ${{github.workspace}}/pico-sdk; git submodule update --init; fi
+
+    - name: Create trigger file for next workflow
+      if: steps.cache-sdk.outputs.cache-hit != 'true'
+      run: |
+        # Create a file that signifies an update
+        echo "Triggering next workflow due to SDK update." > sdk-update-trigger.txt
+
+
+
