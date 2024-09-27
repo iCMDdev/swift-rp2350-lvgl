@@ -43,11 +43,5 @@ jobs:
         cd ${{github.workspace}}
         if [ ! -d "pico-sdk" ]; then git clone https://github.com/raspberrypi/pico-sdk.git; cd ${{github.workspace}}/pico-sdk; git submodule update --init; fi
 
-    - name: Create trigger file for next workflow
-      if: steps.cache-sdk.outputs.cache-hit != 'true'
-      run: |
-        # Create a file that signifies an update
-        echo "Triggering next workflow due to SDK update." > sdk-update-trigger.txt
-
 
 
