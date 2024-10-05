@@ -2,7 +2,7 @@ name: Daily check for SDK updates
 
 on:
   schedule:
-    - cron: '10 0 * * *'
+    - cron: '0 0 * * *'
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
@@ -10,7 +10,7 @@ env:
   PICO_BOARD: pico2
 
 jobs:
-  stale:
+  check-sdks:
     runs-on: ubuntu-22.04
     steps: 
     - uses: actions/checkout@v4
